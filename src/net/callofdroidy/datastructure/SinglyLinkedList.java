@@ -1,21 +1,23 @@
-package datastructure.linkedlist;
+package net.callofdroidy.datastructure;
+
+import net.callofdroidy.datastructure.common.SinglyLinkedListData;
 
 /**
  * Created by admin on 29/01/16.
  */
-public class SimpleLinkedList {
-    private Data first = null;
+public class SinglyLinkedList {
+    private SinglyLinkedListData first = null;
 
     public void insertFirst(Object obj){
-        Data data = new Data(obj);
-        data.next = first;
-        first = data;
+        SinglyLinkedListData singlyLinkedListData = new SinglyLinkedListData(obj);
+        singlyLinkedListData.next = first;
+        first = singlyLinkedListData;
     }
 
     public Object deleteFirst() throws Exception{
         if(first == null)
             throw new Exception("empty");
-        Data temp = first;
+        SinglyLinkedListData temp = first;
         first = first.next;
         return temp.obj;
     }
@@ -23,7 +25,7 @@ public class SimpleLinkedList {
     public Object find(Object obj) throws Exception{
         if(first == null)
             throw new Exception("LinkedList is empty");
-        Data cur = first;
+        SinglyLinkedListData cur = first;
         while (cur != null){
             if(cur.obj.equals(obj)){
                 return cur.obj;
@@ -39,8 +41,8 @@ public class SimpleLinkedList {
         if (first.obj.equals(obj)) {
             first = first.next;
         }else {
-            Data pre = first;
-            Data cur = first.next;
+            SinglyLinkedListData pre = first;
+            SinglyLinkedListData cur = first.next;
             while(cur != null){
                 if(cur.obj.equals(obj)){
                     pre.next = cur.next;
@@ -59,7 +61,7 @@ public class SimpleLinkedList {
         if(first == null)
             System.out.println("empty");
         else {
-            Data cur = first;
+            SinglyLinkedListData cur = first;
             while(cur != null){
                 System.out.print(cur.obj.toString() + " -> ");
                 cur = cur.next;
