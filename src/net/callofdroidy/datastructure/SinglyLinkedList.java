@@ -1,73 +1,94 @@
 package net.callofdroidy.datastructure;
 
-import net.callofdroidy.datastructure.common.SinglyLinkedListData;
+import net.callofdroidy.datastructure.util.SinglyLinkedListEntry;
+
+import java.util.EmptyStackException;
 
 /**
- * Created by admin on 29/01/16.
+ * Created by yli on 13/12/16.
+ * Tips:
+ *　1. 头结点的数据域尽量不存放数据，以免在要删除该数据时,无法找到指向这个头结点的结点而无法删除, 不利于针对所有数据的循环滚动操作
+ * ２．最后哦一个结点的指针域一定要记得赋null, 不然在对该链表遍历时就没有结尾了
  */
-public class SinglyLinkedList {
-    private SinglyLinkedListData first = null;
+public class SinglyLinkedList<E> {
+    private SinglyLinkedListEntry<E> head;
+    private int size = 0;
 
-    public void insertFirst(Object obj){
-        SinglyLinkedListData singlyLinkedListData = new SinglyLinkedListData(obj);
-        singlyLinkedListData.next = first;
-        first = singlyLinkedListData;
+    public SinglyLinkedList(){
+        head = new SinglyLinkedListEntry<E>(null);
     }
 
-    public Object deleteFirst() throws Exception{
-        if(first == null)
-            throw new Exception("empty");
-        SinglyLinkedListData temp = first;
-        first = first.next;
-        return temp.obj;
+    public void insertAtHead(E newEntryElement){
+        SinglyLinkedListEntry<E> newEntry = new SinglyLinkedListEntry<E>(newEntryElement);
+        newEntry.next = head;
+        head = newEntry;
+        size++;
     }
 
-    public Object find(Object obj) throws Exception{
-        if(first == null)
-            throw new Exception("LinkedList is empty");
-        SinglyLinkedListData cur = first;
-        while (cur != null){
-            if(cur.obj.equals(obj)){
-                return cur.obj;
-            }
-            cur = cur.next;
-        }
-        return null;
-    }
-
-    public void remove(Object obj) throws Exception{
-        if(first == null)
-            throw new Exception("LinkedList is empty");
-        if (first.obj.equals(obj)) {
-            first = first.next;
-        }else {
-            SinglyLinkedListData pre = first;
-            SinglyLinkedListData cur = first.next;
-            while(cur != null){
-                if(cur.obj.equals(obj)){
-                    pre.next = cur.next;
-                }
-                pre = cur;
-                cur = cur.next;
-            }
+    public E deleteAtHead() throws EmptyStackException{
+        if(head.next == null)
+            throw new EmptyStackException();
+        else {
+            SinglyLinkedListEntry<E> removedEntry = head;
+            head = head.next;
+            size--;
+            return removedEntry.element;
         }
     }
 
     public boolean isEmpty(){
-        return (first == null);
+        return head == null;
     }
 
-    public void display(){
-        if(first == null)
-            System.out.println("empty");
-        else {
-            SinglyLinkedListData cur = first;
-            while(cur != null){
-                System.out.print(cur.obj.toString() + " -> ");
-                cur = cur.next;
-            }
-            System.out.print("\n");
+    public boolean contains(E targetElement){
+        SinglyLinkedListEntry<E> node = head;
+        while(node.next != null){
+            if(node.element.equals(targetElement))
+                return true;
+            else
+                node = node.next;
+        }
+        return false;
+    }
+
+    // 单链表反转的四种方法：　http://blog.csdn.net/feliciafay/article/details/6841115
+
+    public void reverseWayOne(){ // non-recursive
+        SinglyLinkedListEntry<E> pNode = head;
+        SinglyLinkedListEntry<E> qNode = head.next;
+
+        SinglyLinkedListEntry<E> rNode = null;
+
+        head.next = null;
+
+        while(qNode != null){
+            rNode = qNode.next;
+            qNode.next = pNode;
+            pNode = qNode;
+            qNode = rNode;
+
         }
 
+        head = pNode;
+    }
+
+    public void reverseWayTwo(){ // recursive
+
+    }
+
+    public String printAll(){
+        StringBuilder stringBuilder = new StringBuilder();
+        SinglyLinkedListEntry<E> node = head;
+        while(node != null){
+            //if(node.element != null){
+                stringBuilder.append(node.element).append(", ");
+                node = node.next;
+            //}
+        }
+        return stringBuilder.toString();
+    }
+
+    public int size(){
+        return size;
     }
 }
