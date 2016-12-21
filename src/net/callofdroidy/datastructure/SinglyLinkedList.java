@@ -51,9 +51,10 @@ public class SinglyLinkedList<E> {
         return false;
     }
 
-    // 单链表反转的四种方法：　http://blog.csdn.net/feliciafay/article/details/6841115
+    // 单链表反转的两种方法：　http://hanhailong.com/2016/02/25/Java%E5%8F%8D%E8%BD%AC%E5%8D%95%E9%93%BE%E8%A1%A8%E5%AE%9E%E6%88%98/
 
-    public void reverseWayOne(){ // non-recursive
+    // non-recursive
+    public void reverseNormal(){
         SinglyLinkedListEntry<E> pNode = head;
         SinglyLinkedListEntry<E> qNode = head.next;
 
@@ -66,24 +67,42 @@ public class SinglyLinkedList<E> {
             qNode.next = pNode;
             pNode = qNode;
             qNode = rNode;
-
         }
-
         head = pNode;
     }
 
-    public void reverseWayTwo(){ // recursive
 
+    // recursive
+    public SinglyLinkedListEntry<E> reverseRecursive(SinglyLinkedListEntry<E> node){
+        System.out.println("rev once");
+
+        // it means this is the tail node of the old LinkedList, or the LinkedList is empty
+        if(node == null || node.next == null) return node;
+
+        SinglyLinkedListEntry<E> nextNode = node.next;
+        node.next = null;
+        SinglyLinkedListEntry<E> newTail = reverseRecursive(nextNode);
+        nextNode.next = node;
+        return newTail;
+    }
+
+    public SinglyLinkedListEntry<E> getAtIndex(int index){
+        if(index <= size){
+            SinglyLinkedListEntry<E> node = head;
+            for(int i = 0; i < index; i++){
+                node = node.next;
+            }
+            return node;
+        }
+        return null;
     }
 
     public String printAll(){
         StringBuilder stringBuilder = new StringBuilder();
         SinglyLinkedListEntry<E> node = head;
         while(node != null){
-            //if(node.element != null){
-                stringBuilder.append(node.element).append(", ");
-                node = node.next;
-            //}
+            stringBuilder.append(node.element).append(" -> ");
+            node = node.next;
         }
         return stringBuilder.toString();
     }

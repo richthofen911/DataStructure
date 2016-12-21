@@ -2,9 +2,6 @@ package net.callofdroidy.datastructure.util;
 
 import net.callofdroidy.datastructure.SinglyLinkedList;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-
 /**
  * Created by admin on 29/01/16.
  */
@@ -20,7 +17,9 @@ public class Run {
 
         System.out.println(singlyLinkedList.printAll());
 
-        singlyLinkedList.reverseWayOne();
+        SinglyLinkedListEntry<String> head = singlyLinkedList.getAtIndex(0);
+        //System.out.println(head.next.element);
+        singlyLinkedList.reverseRecursive(head);
 
         System.out.println(singlyLinkedList.printAll());
 
